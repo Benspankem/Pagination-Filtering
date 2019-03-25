@@ -8,28 +8,54 @@ FSJS project 2 - List Filter and Pagination
    need to reference and/or manipulate. ***/
 
    const studentList = document.querySelector('.student-list');
-
-   const student = studentList.children; 
-   
+   const student = document.querySelectorAll(".student-item");
    const pagebody = document.querySelector('div.page'); 
-   
    const pagediv = document.createElement('div'); 
       pagediv.classList.add("pagination"); 
       pagebody.appendChild(pagediv);
-   
    const pageUl = document.createElement('ul');
       pagediv.appendChild(pageUl);
+   const pageHeader = document.querySelector(".page-header");
+      
+   // create the search bar
+   const searchDiv = document.createElement("div");
+      searchDiv.className = "student-search";
+      pageHeader.appendChild(searchDiv);
+   const searchInput = document.createElement("input");
+      searchInput.setAttribute("placeholder", "Search for students...");
+      searchDiv.appendChild(searchInput);
+   const searchBtn = document.createElement("button");
+      searchBtn.textContent = "Search";
+      searchDiv.appendChild(searchBtn);
+      // add keyup on the search input
+      searchInput.onkeyup = function() {
+         let filter = searchInput.value.toLowerCase();
+         for (var i = 0; i < student.length; i++) {
+            if (student[i].innerHTML.indexOf(filter) > -1) {
+               student[i].style.display = "";
+            } else {
+               student[i].style.display = "none";
+            }
+         }
+      }
+      
+   //add filter functionality to the search button
+   searchBtn.addEventListener("click", function(){
+      let filter = searchInput.value.toLowerCase();
+      for (var i = 0; i < student.length; i++) {
+         if (student[i].innerHTML.indexOf(filter) > -1) {
+            student[i].style.display = "";
+         } else {
+            student[i].style.display = "none";
+         }
+      }
+   })
 
-      console.log(pageUl);
-   
-   
-   /*** 
-      Create the `showPage` function to hide all of the items in the 
+   /*** Create the `showPage` function to hide all of the items in the 
       list except for the ten you want to show. ***/
    const showPage = function(list, page) {
          let last = page * 10;
          let first = last - 10;
-      
          for (var i = 0; i < student.length; i++) {
            if (i >= last || i < first) {
              student[i].style.display = "none";
@@ -39,10 +65,8 @@ FSJS project 2 - List Filter and Pagination
          }
        }
      
-   /*** 
-      Create the `appendPageLinks function` to generate, append, and add 
-      functionality to the pagination buttons.
-   ***/
+   /*** Create the `appendPageLinks function` to generate, append, and add 
+      functionality to the pagination buttons.***/
    const appendPageLinks = function (list) {
    let pageCount = Math.ceil(student.length / 10); 
    
@@ -62,18 +86,11 @@ FSJS project 2 - List Filter and Pagination
          showPage(studentList, pageAnchor.innerHTML);
       });
    }
-}                  
-   // create the search bar
-   function searchBar () {
-      const searchDiv = document.createElement("div");
-      searchDiv.className = "student-search";
-      let searchInput = document.createElement("input");
-      searchInput.setAttribute("placeholder", "Search for students...");
-      searchDiv.appendChild(searchInput);
-      let searchBtn = document.createElement("button");
-      searchBtn.textContent = "Search";
-      searchDiv.appendChild(searchBtn);
-   }  
-   
+}   
+
+
+   //init
    showPage(studentList, 1);
    appendPageLinks(studentList);
+
+                                           
