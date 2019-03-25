@@ -62,6 +62,18 @@ FSJS project 2 - List Filter and Pagination
          showPage(studentList, pageAnchor.innerHTML);
       });
    }
-}                                                                      
+}                  
+   // create the search bar
+   function searchBar () {
+      const searchDiv = document.createElement("div");
+      searchDiv.className = "student-search";
+      let searchInput = document.createElement("input");
+      searchInput.setAttribute("placeholder", "Search for students...");
+      searchDiv.appendChild(searchInput);
+      let searchBtn = document.createElement("button");
+      searchBtn.textContent = "Search";
+      searchDiv.appendChild(searchBtn);
+   }  
+   
    showPage(studentList, 1);
    appendPageLinks(studentList);
